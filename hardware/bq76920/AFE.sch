@@ -589,8 +589,8 @@ L Diode:1N4148 D2
 U 1 1 5D54AC81
 P 6450 4950
 F 0 "D2" V 6496 4871 50  0000 R CNN
-F 1 "LL4148-GS08" V 6405 4871 50  0000 R CNN
-F 2 "Diode_SMD:D_MiniMELF_Handsoldering" H 6450 4775 50  0001 C CNN
+F 1 "PMEG3010BEA,115" V 6405 4871 50  0000 R CNN
+F 2 "Diode_SMD:D_SOD-323_HandSoldering" H 6450 4775 50  0001 C CNN
 F 3 "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf" H 6450 4950 50  0001 C CNN
 	1    6450 4950
 	0    -1   -1   0   
@@ -717,8 +717,8 @@ L Diode:1N4148 D1
 U 1 1 5D545BA2
 P 3250 950
 F 0 "D1" H 3350 850 50  0000 R CNN
-F 1 "LL4148-GS08" H 3550 1050 50  0000 R CNN
-F 2 "Diode_SMD:D_MiniMELF_Handsoldering" H 3250 775 50  0001 C CNN
+F 1 "PMEG3010BEA,115" H 3550 1050 50  0000 R CNN
+F 2 "Diode_SMD:D_SOD-323_HandSoldering" H 3250 775 50  0001 C CNN
 F 3 "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf" H 3250 950 50  0001 C CNN
 	1    3250 950 
 	-1   0    0    1   
