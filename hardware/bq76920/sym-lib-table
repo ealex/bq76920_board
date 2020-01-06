@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name bq769xx)(type Legacy)(uri /home/rotten/work/lipoManager/hardware/bq769xx.lib)(options "")(descr ""))
+  (lib (name bq76920-rescue)(type Legacy)(uri ${KIPRJMOD}/bq76920-rescue.lib)(options "")(descr ""))
+)
