@@ -1,0 +1,372 @@
+EESchema Schematic File Version 4
+LIBS:bq76920-cache
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 5
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Sheet
+S 3500 1500 1100 1350
+U 5D32E153
+F0 "bq76920 section" 50
+F1 "AFE.sch" 50
+F2 "BAL_C5" I L 3500 1700 50 
+F3 "BAL_C4" I L 3500 1800 50 
+F4 "BAL_C3" I L 3500 1900 50 
+F5 "BAL_C2" I L 3500 2000 50 
+F6 "BAL_C1" I L 3500 2100 50 
+F7 "BAL_C0" I L 3500 2200 50 
+F8 "BATT-" I L 3500 2750 50 
+F9 "~ALERT" I R 4600 2200 50 
+F10 "BATT+" I L 3500 1600 50 
+F11 "SCL" I R 4600 2000 50 
+F12 "SDA" I R 4600 2100 50 
+F13 "BOOT" I R 4600 2500 50 
+F14 "BAT_THERM" I L 3500 2300 50 
+F15 "REGOUT" I R 4600 1800 50 
+F16 "RAW_PACK-" I R 4600 1600 50 
+$EndSheet
+$Sheet
+S 1800 1550 1000 800 
+U 5D4426A3
+F0 "balance section" 50
+F1 "balance.sch" 50
+F2 "RAW_C5" I L 1800 1700 50 
+F3 "RAW_C4" I L 1800 1800 50 
+F4 "BAL_C5" I R 2800 1700 50 
+F5 "BAL_C4" I R 2800 1800 50 
+F6 "RAW_C3" I L 1800 1900 50 
+F7 "BAL_C3" I R 2800 1900 50 
+F8 "RAW_C2" I L 1800 2000 50 
+F9 "BAL_C2" I R 2800 2000 50 
+F10 "RAW_C1" I L 1800 2100 50 
+F11 "BAL_C1" I R 2800 2100 50 
+F12 "RAW_BATT-" I L 1800 2200 50 
+F13 "BAL_C0" I R 2800 2200 50 
+$EndSheet
+$Comp
+L Connector_Generic:Conn_01x01 J1
+U 1 1 5D5886AF
+P 800 900
+F 0 "J1" H 718 1117 50  0000 C CNN
+F 1 "BAT+" H 718 1026 50  0000 C CNN
+F 2 "bq76920:power_pin" H 800 900 50  0001 C CNN
+F 3 "~" H 800 900 50  0001 C CNN
+	1    800  900 
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x06 J2
+U 1 1 5D588EED
+P 800 2000
+F 0 "J2" H 718 2417 50  0000 C CNN
+F 1 "Conn_01x06" H 718 2326 50  0000 C CNN
+F 2 "Connector_JST:JST_PH_B6B-PH-K_1x06_P2.00mm_Vertical" H 800 2000 50  0001 C CNN
+F 3 "~" H 800 2000 50  0001 C CNN
+	1    800  2000
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J5
+U 1 1 5D58C070
+P 800 4350
+F 0 "J5" H 718 4567 50  0000 C CNN
+F 1 "BAT-" H 718 4476 50  0000 C CNN
+F 2 "bq76920:power_pin" H 800 4350 50  0001 C CNN
+F 3 "~" H 800 4350 50  0001 C CNN
+	1    800  4350
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	2800 1700 3500 1700
+Wire Wire Line
+	3500 1800 2800 1800
+Wire Wire Line
+	2800 1900 3500 1900
+Wire Wire Line
+	3500 2000 2800 2000
+Wire Wire Line
+	2800 2100 3500 2100
+Wire Wire Line
+	3500 2200 2800 2200
+$Comp
+L Connector_Generic:Conn_01x02 J3
+U 1 1 5D5918BC
+P 800 2750
+F 0 "J3" H 718 2967 50  0000 C CNN
+F 1 "therm" H 718 2876 50  0000 C CNN
+F 2 "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical" H 800 2750 50  0001 C CNN
+F 3 "~" H 800 2750 50  0001 C CNN
+	1    800  2750
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR01
+U 1 1 5D5929FF
+P 1150 2850
+F 0 "#PWR01" H 1150 2600 50  0001 C CNN
+F 1 "GND" H 1155 2677 50  0000 C CNN
+F 2 "" H 1150 2850 50  0001 C CNN
+F 3 "" H 1150 2850 50  0001 C CNN
+	1    1150 2850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1000 2750 1150 2750
+Wire Wire Line
+	1150 2750 1150 2850
+Wire Wire Line
+	1000 2650 1500 2650
+Wire Wire Line
+	1000 2200 1800 2200
+Wire Wire Line
+	1000 2100 1800 2100
+Wire Wire Line
+	1800 2000 1000 2000
+Wire Wire Line
+	1000 1900 1800 1900
+Wire Wire Line
+	1000 1800 1800 1800
+Wire Wire Line
+	1800 1700 1000 1700
+Wire Wire Line
+	2950 2300 2950 2650
+Wire Wire Line
+	2950 2300 3500 2300
+Wire Wire Line
+	3150 2750 3500 2750
+$Sheet
+S 8500 750  1100 650 
+U 5D5964BC
+F0 "output protection" 50
+F1 "output_protection.sch" 50
+F2 "RAW_BAT+" I L 8500 900 50 
+F3 "RAW_BAT-" I L 8500 1100 50 
+F4 "PACK+" I R 9600 900 50 
+F5 "PACK-" I R 9600 1100 50 
+$EndSheet
+$Comp
+L Connector_Generic:Conn_01x01 J6
+U 1 1 5D59C43D
+P 10150 900
+F 0 "J6" H 10230 942 50  0000 L CNN
+F 1 "PACK+" H 10230 851 50  0000 L CNN
+F 2 "bq76920:power_pin" H 10150 900 50  0001 C CNN
+F 3 "~" H 10150 900 50  0001 C CNN
+	1    10150 900 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J7
+U 1 1 5D59CAFF
+P 10150 1100
+F 0 "J7" H 10230 1142 50  0000 L CNN
+F 1 "PACK-" H 10230 1051 50  0000 L CNN
+F 2 "bq76920:power_pin" H 10150 1100 50  0001 C CNN
+F 3 "~" H 10150 1100 50  0001 C CNN
+	1    10150 1100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9600 900  9950 900 
+$Sheet
+S 6200 1800 900  350 
+U 5D59E152
+F0 "cpu power" 50
+F1 "cpu_power.sch" 50
+F2 "ENABLE" I L 6200 2000 50 
+F3 "RAW_VCC" I L 6200 1900 50 
+F4 "VCC_3V3" I R 7100 1900 50 
+$EndSheet
+Wire Wire Line
+	9950 1100 9600 1100
+Wire Wire Line
+	1000 900  3050 900 
+Wire Wire Line
+	7900 1600 7900 1100
+Wire Wire Line
+	7900 1100 8500 1100
+Wire Wire Line
+	4600 1600 7900 1600
+Wire Wire Line
+	6200 1900 6000 1900
+Wire Wire Line
+	6000 1900 6000 900 
+Connection ~ 6000 900 
+Wire Wire Line
+	6000 900  8500 900 
+Wire Wire Line
+	4600 1800 5900 1800
+Wire Wire Line
+	5900 1800 5900 2000
+Wire Wire Line
+	5900 2000 6200 2000
+Wire Wire Line
+	3150 2750 3150 4350
+$Comp
+L Device:R_Small R1
+U 1 1 5D5D5592
+P 1500 2850
+F 0 "R1" H 1559 2896 50  0000 L CNN
+F 1 "10k" H 1559 2805 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 1500 2850 50  0001 C CNN
+F 3 "~" H 1500 2850 50  0001 C CNN
+	1    1500 2850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 2750 1500 2650
+Connection ~ 1500 2650
+Wire Wire Line
+	1500 2650 2950 2650
+$Comp
+L power:GND #PWR02
+U 1 1 5D5D6B1B
+P 1500 3050
+F 0 "#PWR02" H 1500 2800 50  0001 C CNN
+F 1 "GND" H 1505 2877 50  0000 C CNN
+F 2 "" H 1500 3050 50  0001 C CNN
+F 3 "" H 1500 3050 50  0001 C CNN
+	1    1500 3050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 3050 1500 2950
+$Comp
+L Connector_Generic:Conn_01x02 J4
+U 1 1 5D5D7FEC
+P 800 3750
+F 0 "J4" H 718 3967 50  0000 C CNN
+F 1 "boot_switch" H 718 3876 50  0000 C CNN
+F 2 "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical" H 800 3750 50  0001 C CNN
+F 3 "~" H 800 3750 50  0001 C CNN
+	1    800  3750
+	-1   0    0    1   
+$EndComp
+Text Label 4750 2500 0    50   ~ 0
+boot
+Wire Wire Line
+	4750 2500 4600 2500
+Text Label 1850 3750 0    50   ~ 0
+boot
+Text Label 1150 2100 0    50   ~ 0
+RAW_C1
+Text Label 1150 3650 0    50   ~ 0
+RAW_C1
+Wire Wire Line
+	1150 3650 1000 3650
+$Comp
+L Device:R_Small R2
+U 1 1 5D5DFFE0
+P 1600 3750
+F 0 "R2" V 1404 3750 50  0000 C CNN
+F 1 "10k" V 1495 3750 50  0000 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 1600 3750 50  0001 C CNN
+F 3 "~" H 1600 3750 50  0001 C CNN
+	1    1600 3750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1700 3750 1850 3750
+Wire Wire Line
+	1000 3750 1500 3750
+$Comp
+L Connector_Generic:Conn_01x06 J8
+U 1 1 5D5E72CD
+P 10150 2900
+F 0 "J8" H 10230 2892 50  0000 L CNN
+F 1 "mcu interface" H 10230 2801 50  0000 L CNN
+F 2 "Connector_JST:JST_PH_B6B-PH-K_1x06_P2.00mm_Vertical" H 10150 2900 50  0001 C CNN
+F 3 "~" H 10150 2900 50  0001 C CNN
+	1    10150 2900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9950 2700 9000 2700
+Wire Wire Line
+	9000 2700 9000 1900
+Wire Wire Line
+	9000 1900 7100 1900
+Wire Wire Line
+	4600 2000 5800 2000
+Wire Wire Line
+	5800 2000 5800 2800
+Wire Wire Line
+	5800 2800 9950 2800
+Wire Wire Line
+	9950 2900 5700 2900
+Wire Wire Line
+	5700 2900 5700 2100
+Wire Wire Line
+	5700 2100 4600 2100
+Wire Wire Line
+	9950 3000 5600 3000
+Wire Wire Line
+	5600 3000 5600 2200
+Wire Wire Line
+	5600 2200 4600 2200
+$Comp
+L power:GND #PWR03
+U 1 1 5D5EC925
+P 9800 3350
+F 0 "#PWR03" H 9800 3100 50  0001 C CNN
+F 1 "GND" H 9805 3177 50  0000 C CNN
+F 2 "" H 9800 3350 50  0001 C CNN
+F 3 "" H 9800 3350 50  0001 C CNN
+	1    9800 3350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9800 3350 9800 3200
+Wire Wire Line
+	9800 3100 9950 3100
+Wire Wire Line
+	9950 3200 9800 3200
+Connection ~ 9800 3200
+Wire Wire Line
+	9800 3200 9800 3100
+Wire Wire Line
+	1000 4350 3150 4350
+Wire Wire Line
+	3500 1600 3050 1600
+Wire Wire Line
+	3050 1600 3050 900 
+Connection ~ 3050 900 
+Wire Wire Line
+	3050 900  6000 900 
+Text Label 1500 900  0    50   ~ 0
+BAT+
+Text Label 1150 1700 0    50   ~ 0
+RAW_C5
+Text Label 1150 1800 0    50   ~ 0
+RAW_C4
+Text Label 1150 1900 0    50   ~ 0
+RAW_C3
+Text Label 1150 2000 0    50   ~ 0
+RAW_C2
+Text Label 1150 2200 0    50   ~ 0
+RAW_BATT-
+Text Label 1850 2650 0    50   ~ 0
+BAT_THERM
+Text Label 1550 4350 0    50   ~ 0
+BAT-
+Text Label 7050 1600 0    50   ~ 0
+RAW_BAT-
+Text Label 7750 1900 0    50   ~ 0
+VCC_3V3
+Text Label 9550 2800 0    50   ~ 0
+SCL
+Text Label 9550 2900 0    50   ~ 0
+SDA
+Text Label 9550 3000 0    50   ~ 0
+~ALERT
+$EndSCHEMATC
