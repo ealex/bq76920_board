@@ -4,7 +4,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 5
+Sheet 1 4
 Title ""
 Date ""
 Rev ""
@@ -15,25 +15,26 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Sheet
-S 3500 1500 1100 1350
+S 4000 1500 1100 1350
 U 5D32E153
 F0 "bq76920 section" 50
 F1 "AFE.sch" 50
-F2 "BAL_C5" I L 3500 1700 50 
-F3 "BAL_C4" I L 3500 1800 50 
-F4 "BAL_C3" I L 3500 1900 50 
-F5 "BAL_C2" I L 3500 2000 50 
-F6 "BAL_C1" I L 3500 2100 50 
-F7 "BAL_C0" I L 3500 2200 50 
-F8 "BATT-" I L 3500 2750 50 
-F9 "~ALERT" I R 4600 2200 50 
-F10 "BATT+" I L 3500 1600 50 
-F11 "SCL" I R 4600 2000 50 
-F12 "SDA" I R 4600 2100 50 
-F13 "BOOT" I R 4600 2500 50 
-F14 "BAT_THERM" I L 3500 2300 50 
-F15 "REGOUT" I R 4600 1800 50 
-F16 "RAW_PACK-" I R 4600 1600 50 
+F2 "BAL_C5" I L 4000 1700 50 
+F3 "BAL_C4" I L 4000 1800 50 
+F4 "BAL_C3" I L 4000 1900 50 
+F5 "BAL_C2" I L 4000 2000 50 
+F6 "BAL_C1" I L 4000 2100 50 
+F7 "BAL_C0" I L 4000 2200 50 
+F8 "BATT-" I L 4000 2750 50 
+F9 "~ALERT" I R 5100 2200 50 
+F10 "BATT+" I L 4000 1600 50 
+F11 "SCL" I R 5100 2000 50 
+F12 "SDA" I R 5100 2100 50 
+F13 "BOOT" I L 4000 2400 50 
+F14 "BAT_THERM" I L 4000 2300 50 
+F15 "REGOUT" I R 5100 1900 50 
+F16 "RAW_PACK-" I R 5100 1600 50 
+F17 "PACK-" I R 5100 2750 50 
 $EndSheet
 $Sheet
 S 1800 1550 1000 800 
@@ -86,18 +87,6 @@ F 3 "~" H 800 4350 50  0001 C CNN
 	1    800  4350
 	-1   0    0    -1  
 $EndComp
-Wire Wire Line
-	2800 1700 3500 1700
-Wire Wire Line
-	3500 1800 2800 1800
-Wire Wire Line
-	2800 1900 3500 1900
-Wire Wire Line
-	3500 2000 2800 2000
-Wire Wire Line
-	2800 2100 3500 2100
-Wire Wire Line
-	3500 2200 2800 2200
 $Comp
 L Connector_Generic:Conn_01x02 J3
 U 1 1 5D5918BC
@@ -140,20 +129,6 @@ Wire Wire Line
 	1800 1700 1000 1700
 Wire Wire Line
 	2950 2300 2950 2650
-Wire Wire Line
-	2950 2300 3500 2300
-Wire Wire Line
-	3150 2750 3500 2750
-$Sheet
-S 8500 750  1100 650 
-U 5D5964BC
-F0 "output protection" 50
-F1 "output_protection.sch" 50
-F2 "RAW_BAT+" I L 8500 900 50 
-F3 "RAW_BAT-" I L 8500 1100 50 
-F4 "PACK+" I R 9600 900 50 
-F5 "PACK-" I R 9600 1100 50 
-$EndSheet
 $Comp
 L Connector_Generic:Conn_01x01 J6
 U 1 1 5D59C43D
@@ -168,50 +143,16 @@ $EndComp
 $Comp
 L Connector_Generic:Conn_01x01 J7
 U 1 1 5D59CAFF
-P 10150 1100
-F 0 "J7" H 10230 1142 50  0000 L CNN
-F 1 "PACK-" H 10230 1051 50  0000 L CNN
-F 2 "bq76920:power_pin" H 10150 1100 50  0001 C CNN
-F 3 "~" H 10150 1100 50  0001 C CNN
-	1    10150 1100
+P 9900 4350
+F 0 "J7" H 9980 4392 50  0000 L CNN
+F 1 "PACK-" H 9980 4301 50  0000 L CNN
+F 2 "bq76920:power_pin" H 9900 4350 50  0001 C CNN
+F 3 "~" H 9900 4350 50  0001 C CNN
+	1    9900 4350
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	9600 900  9950 900 
-$Sheet
-S 6200 1800 900  350 
-U 5D59E152
-F0 "cpu power" 50
-F1 "cpu_power.sch" 50
-F2 "ENABLE" I L 6200 2000 50 
-F3 "RAW_VCC" I L 6200 1900 50 
-F4 "VCC_3V3" I R 7100 1900 50 
-$EndSheet
-Wire Wire Line
-	9950 1100 9600 1100
-Wire Wire Line
 	1000 900  3050 900 
-Wire Wire Line
-	7900 1600 7900 1100
-Wire Wire Line
-	7900 1100 8500 1100
-Wire Wire Line
-	4600 1600 7900 1600
-Wire Wire Line
-	6200 1900 6000 1900
-Wire Wire Line
-	6000 1900 6000 900 
-Connection ~ 6000 900 
-Wire Wire Line
-	6000 900  8500 900 
-Wire Wire Line
-	4600 1800 5900 1800
-Wire Wire Line
-	5900 1800 5900 2000
-Wire Wire Line
-	5900 2000 6200 2000
-Wire Wire Line
-	3150 2750 3150 4350
 $Comp
 L Device:R_Small R1
 U 1 1 5D5D5592
@@ -252,12 +193,6 @@ F 3 "~" H 800 3750 50  0001 C CNN
 	1    800  3750
 	-1   0    0    1   
 $EndComp
-Text Label 4750 2500 0    50   ~ 0
-boot
-Wire Wire Line
-	4750 2500 4600 2500
-Text Label 1850 3750 0    50   ~ 0
-boot
 Text Label 1150 2100 0    50   ~ 0
 RAW_C1
 Text Label 1150 3650 0    50   ~ 0
@@ -276,73 +211,11 @@ F 3 "~" H 1600 3750 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	1700 3750 1850 3750
-Wire Wire Line
 	1000 3750 1500 3750
-$Comp
-L Connector_Generic:Conn_01x06 J8
-U 1 1 5D5E72CD
-P 10150 2900
-F 0 "J8" H 10230 2892 50  0000 L CNN
-F 1 "mcu interface" H 10230 2801 50  0000 L CNN
-F 2 "Connector_JST:JST_PH_B6B-PH-K_1x06_P2.00mm_Vertical" H 10150 2900 50  0001 C CNN
-F 3 "~" H 10150 2900 50  0001 C CNN
-	1    10150 2900
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9950 2700 9000 2700
-Wire Wire Line
-	9000 2700 9000 1900
-Wire Wire Line
-	9000 1900 7100 1900
-Wire Wire Line
-	4600 2000 5800 2000
-Wire Wire Line
-	5800 2000 5800 2800
-Wire Wire Line
-	5800 2800 9950 2800
-Wire Wire Line
-	9950 2900 5700 2900
-Wire Wire Line
-	5700 2900 5700 2100
-Wire Wire Line
-	5700 2100 4600 2100
-Wire Wire Line
-	9950 3000 5600 3000
-Wire Wire Line
-	5600 3000 5600 2200
-Wire Wire Line
-	5600 2200 4600 2200
-$Comp
-L power:GND #PWR03
-U 1 1 5D5EC925
-P 9800 3350
-F 0 "#PWR03" H 9800 3100 50  0001 C CNN
-F 1 "GND" H 9805 3177 50  0000 C CNN
-F 2 "" H 9800 3350 50  0001 C CNN
-F 3 "" H 9800 3350 50  0001 C CNN
-	1    9800 3350
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9800 3350 9800 3200
-Wire Wire Line
-	9800 3100 9950 3100
-Wire Wire Line
-	9950 3200 9800 3200
-Connection ~ 9800 3200
-Wire Wire Line
-	9800 3200 9800 3100
 Wire Wire Line
 	1000 4350 3150 4350
 Wire Wire Line
-	3500 1600 3050 1600
-Wire Wire Line
 	3050 1600 3050 900 
-Connection ~ 3050 900 
-Wire Wire Line
-	3050 900  6000 900 
 Text Label 1500 900  0    50   ~ 0
 BAT+
 Text Label 1150 1700 0    50   ~ 0
@@ -359,14 +232,48 @@ Text Label 1850 2650 0    50   ~ 0
 BAT_THERM
 Text Label 1550 4350 0    50   ~ 0
 BAT-
-Text Label 7050 1600 0    50   ~ 0
-RAW_BAT-
-Text Label 7750 1900 0    50   ~ 0
-VCC_3V3
-Text Label 9550 2800 0    50   ~ 0
-SCL
-Text Label 9550 2900 0    50   ~ 0
-SDA
-Text Label 9550 3000 0    50   ~ 0
-~ALERT
+Wire Wire Line
+	3050 1600 4000 1600
+Wire Wire Line
+	2800 1700 4000 1700
+Wire Wire Line
+	2800 1800 4000 1800
+Wire Wire Line
+	2800 1900 4000 1900
+Wire Wire Line
+	2800 2000 4000 2000
+Wire Wire Line
+	2800 2100 4000 2100
+Wire Wire Line
+	2800 2200 4000 2200
+Wire Wire Line
+	2950 2300 4000 2300
+Wire Wire Line
+	3050 3750 3050 2400
+Wire Wire Line
+	3050 2400 4000 2400
+Wire Wire Line
+	1700 3750 3050 3750
+Wire Wire Line
+	4000 2750 3150 2750
+Wire Wire Line
+	3150 2750 3150 4350
+Wire Wire Line
+	5100 1600 6050 1600
+Wire Wire Line
+	6050 1600 6050 900 
+Wire Wire Line
+	6050 900  9950 900 
+Wire Wire Line
+	5100 2750 6050 2750
+Wire Wire Line
+	6050 2750 6050 4350
+Wire Wire Line
+	6050 4350 9700 4350
+$Sheet
+S 6450 1700 1400 1000
+U 5E142913
+F0 "cpu" 50
+F1 "cpu.sch" 50
+$EndSheet
 $EndSCHEMATC

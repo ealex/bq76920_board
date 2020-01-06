@@ -1,10 +1,10 @@
 EESchema Schematic File Version 4
 LIBS:bq76920-cache
-EELAYER 30 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 5
+Sheet 2 3
 Title ""
 Date ""
 Rev ""
@@ -15,9 +15,11 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L bq769xx:bq76920 U1
+L bq76920-rescue:bq76920-bq769xx U1
 U 1 1 5D3344F1
 P 4000 1350
+AR Path="/5D3344F1" Ref="U1"  Part="1" 
+AR Path="/5D32E153/5D3344F1" Ref="U1"  Part="1" 
 F 0 "U1" H 4350 1615 50  0000 C CNN
 F 1 "bq76920" H 4350 1524 50  0000 C CNN
 F 2 "Package_SO:TSSOP-20_4.4x6.5mm_P0.65mm" H 5450 1400 50  0001 C CNN
@@ -483,9 +485,11 @@ Wire Wire Line
 	2500 5850 3050 5850
 Connection ~ 3450 5850
 $Comp
-L bq769xx:PSMN2R6-40YS Q1
+L bq76920-rescue:PSMN2R6-40YS-bq769xx Q1
 U 1 1 5D528049
 P 5050 5850
+AR Path="/5D528049" Ref="Q1"  Part="1" 
+AR Path="/5D32E153/5D528049" Ref="Q1"  Part="1" 
 F 0 "Q1" H 5050 5527 50  0000 C CNN
 F 1 "PSMN2R6-40YS" H 5050 5436 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:LFPAK56" H 4950 6400 50  0001 C CNN
@@ -494,9 +498,11 @@ F 3 "" H 5050 5850 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L bq769xx:PSMN2R6-40YS Q3
+L bq76920-rescue:PSMN2R6-40YS-bq769xx Q3
 U 1 1 5D528754
 P 6100 5850
+AR Path="/5D528754" Ref="Q3"  Part="1" 
+AR Path="/5D32E153/5D528754" Ref="Q3"  Part="1" 
 F 0 "Q3" H 6100 5527 50  0000 C CNN
 F 1 "PSMN2R6-40YS" H 6100 5436 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:LFPAK56" H 6000 6400 50  0001 C CNN
@@ -633,7 +639,7 @@ Wire Wire Line
 	6500 5850 7250 5850
 Connection ~ 6500 5850
 Text HLabel 7250 5850 2    50   Input ~ 0
-RAW_PACK-
+PACK-
 $Comp
 L Device:Q_PMOS_GSD Q2
 U 1 1 5D5759F6
