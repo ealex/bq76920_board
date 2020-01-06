@@ -4,7 +4,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 5
+Sheet 2 4
 Title ""
 Date ""
 Rev ""
@@ -639,7 +639,7 @@ Wire Wire Line
 	6500 5850 7250 5850
 Connection ~ 6500 5850
 Text HLabel 7250 5850 2    50   Input ~ 0
-RAW_PACK-
+PACK-
 $Comp
 L Device:Q_PMOS_GSD Q2
 U 1 1 5D5759F6
