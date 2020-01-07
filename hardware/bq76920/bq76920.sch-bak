@@ -1,6 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:bq76920-cache
-EELAYER 26 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -293,12 +292,12 @@ Wire Wire Line
 Wire Wire Line
 	5100 2200 6200 2200
 $Comp
-L Connector_Generic:Conn_01x04 J?
+L Connector_Generic:Conn_01x04 J8
 U 1 1 5E14DD4B
 P 10150 2000
-F 0 "J?" H 10230 1992 50  0000 L CNN
+F 0 "J8" H 10230 1992 50  0000 L CNN
 F 1 "Conn_01x04" H 10230 1901 50  0000 L CNN
-F 2 "" H 10150 2000 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 10150 2000 50  0001 C CNN
 F 3 "~" H 10150 2000 50  0001 C CNN
 	1    10150 2000
 	1    0    0    -1  

@@ -1,3 +1,3 @@
 (fp_lib_table
-  (lib (name bq76920)(type KiCad)(uri /home/rotten/work/lipoManager/hardware/bq76920.pretty)(options "")(descr ""))
+  (lib (name main)(type KiCad)(uri ${KIPRJMOD}/bq76920.pretty)(options "")(descr ""))
 )
