@@ -1,4 +1,4 @@
 (sym_lib_table
   (lib (name bq76920-rescue)(type Legacy)(uri ${KIPRJMOD}/bq76920-rescue.lib)(options "")(descr ""))
-  (lib (name bq769xx)(type Legacy)(uri /home/rottten/work/electronica/bq76920_board/hardware/bq769xx.lib)(options "")(descr ""))
+  (lib (name bq769xx)(type Legacy)(uri ${KIPRJMOD}/bq769xx.lib)(options "")(descr ""))
 )
