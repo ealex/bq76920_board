@@ -568,17 +568,6 @@ F 3 "~" V 3700 1450 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:D_Zener_Small D4
-U 1 1 5E1532E1
-P 3700 1900
-F 0 "D4" V 3654 1968 50  0000 L CNN
-F 1 "MM3Z5V6ST1G" V 3745 1968 50  0000 L CNN
-F 2 "Diode_SMD:D_SOD-323_HandSoldering" V 3700 1900 50  0001 C CNN
-F 3 "~" V 3700 1900 50  0001 C CNN
-	1    3700 1900
-	0    1    1    0   
-$EndComp
-$Comp
 L Device:D_Zener_Small D5
 U 1 1 5E1533AC
 P 3700 2450
@@ -590,34 +579,12 @@ F 3 "~" V 3700 2450 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:D_Zener_Small D6
-U 1 1 5E153406
-P 3700 2900
-F 0 "D6" V 3654 2968 50  0000 L CNN
-F 1 "MM3Z5V6ST1G" V 3745 2968 50  0000 L CNN
-F 2 "Diode_SMD:D_SOD-323_HandSoldering" V 3700 2900 50  0001 C CNN
-F 3 "~" V 3700 2900 50  0001 C CNN
-	1    3700 2900
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:D_Zener_Small D8
-U 1 1 5E15346A
-P 3700 3900
-F 0 "D8" V 3654 3968 50  0000 L CNN
-F 1 "MM3Z5V6ST1G" V 3745 3968 50  0000 L CNN
-F 2 "Diode_SMD:D_SOD-323_HandSoldering" V 3700 3900 50  0001 C CNN
-F 3 "~" V 3700 3900 50  0001 C CNN
-	1    3700 3900
-	0    1    1    0   
-$EndComp
-$Comp
 L Device:D_Zener_Small D9
 U 1 1 5E1535C6
 P 3700 4400
 F 0 "D9" V 3654 4468 50  0000 L CNN
 F 1 "MM3Z5V6ST1G" V 3745 4468 50  0000 L CNN
-F 2 "Diode_SMD:D_SOD-323" V 3700 4400 50  0001 C CNN
+F 2 "Diode_SMD:D_SOD-323_HandSoldering" V 3700 4400 50  0001 C CNN
 F 3 "~" V 3700 4400 50  0001 C CNN
 	1    3700 4400
 	0    1    1    0   
@@ -641,10 +608,6 @@ Wire Wire Line
 	3700 4500 3700 4650
 Wire Wire Line
 	3700 4100 3700 4300
-Wire Wire Line
-	3700 4000 3700 4100
-Wire Wire Line
-	3700 3800 3700 3650
 $Comp
 L Device:D_Zener_Small D7
 U 1 1 5E16355C
@@ -659,15 +622,7 @@ $EndComp
 Wire Wire Line
 	3700 3100 3700 3350
 Wire Wire Line
-	3700 3000 3700 3100
-Wire Wire Line
-	3700 2800 3700 2650
-Wire Wire Line
 	3700 2100 3700 2350
-Wire Wire Line
-	3700 2000 3700 2100
-Wire Wire Line
-	3700 1800 3700 1650
 Wire Wire Line
 	3700 1550 3700 1650
 Wire Wire Line
