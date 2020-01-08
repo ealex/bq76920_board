@@ -41,17 +41,6 @@ F 3 "~" H 1350 6550 50  0001 C CNN
 	1    1350 6550
 	-1   0    0    -1  
 $EndComp
-$Comp
-L Device:R_Small R33
-U 1 1 5E133DEA
-P 2700 6200
-F 0 "R33" H 2759 6246 50  0000 L CNN
-F 1 "10k" H 2759 6155 50  0000 L CNN
-F 2 "Resistor_SMD:R_0815_2038Metric_Pad1.53x4.00mm_HandSolder" H 2700 6200 50  0001 C CNN
-F 3 "~" H 2700 6200 50  0001 C CNN
-	1    2700 6200
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	2700 6350 2700 6300
 $Comp
@@ -115,7 +104,7 @@ U 1 1 5E134235
 P 1600 6950
 F 0 "R32" H 1659 6996 50  0000 L CNN
 F 1 "10k" H 1659 6905 50  0000 L CNN
-F 2 "Resistor_SMD:R_0815_2038Metric_Pad1.53x4.00mm_HandSolder" H 1600 6950 50  0001 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 1600 6950 50  0001 C CNN
 F 3 "~" H 1600 6950 50  0001 C CNN
 	1    1600 6950
 	1    0    0    -1  
@@ -226,10 +215,8 @@ F 3 "" H 4950 4750 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	4950 4650 4950 4750
-Text HLabel 5700 3350 2    50   Input ~ 0
+Text HLabel 4150 4450 0    50   Input ~ 0
 PACK_ALERT
-Wire Wire Line
-	5700 3350 5450 3350
 $Comp
 L bq76920-rescue:ISO7021-bq769xx U?
 U 1 1 5E13BDED
@@ -354,17 +341,6 @@ F 3 "~" H 5250 1400 50  0001 C CNN
 	1    5250 1400
 	1    0    0    -1  
 $EndComp
-$Comp
-L Connector_Generic:Conn_01x02 J10
-U 1 1 5E140FA3
-P 6400 3550
-F 0 "J10" H 6480 3542 50  0000 L CNN
-F 1 "Conn_01x02" H 6480 3451 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 6400 3550 50  0001 C CNN
-F 3 "~" H 6400 3550 50  0001 C CNN
-	1    6400 3550
-	1    0    0    -1  
-$EndComp
 Text HLabel 5700 1250 2    50   Input ~ 0
 ISOL_VCC
 Text HLabel 4750 1350 2    50   Input ~ 0
@@ -383,8 +359,6 @@ Text Label 3100 1350 0    50   ~ 0
 USART2_RX
 Wire Wire Line
 	5450 3550 6200 3550
-Wire Wire Line
-	5450 3650 6200 3650
 Wire Wire Line
 	3100 1350 3800 1350
 Wire Wire Line
@@ -420,7 +394,7 @@ U 1 1 5E155044
 P 6500 4250
 F 0 "R34" H 6559 4296 50  0000 L CNN
 F 1 "10k" H 6559 4205 50  0000 L CNN
-F 2 "Resistor_SMD:R_0815_2038Metric_Pad1.53x4.00mm_HandSolder" H 6500 4250 50  0001 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 6500 4250 50  0001 C CNN
 F 3 "~" H 6500 4250 50  0001 C CNN
 	1    6500 4250
 	1    0    0    -1  
@@ -442,7 +416,7 @@ U 1 1 5E15CEDA
 P 7400 4250
 F 0 "R35" H 7459 4296 50  0000 L CNN
 F 1 "10k" H 7459 4205 50  0000 L CNN
-F 2 "Resistor_SMD:R_0815_2038Metric_Pad1.53x4.00mm_HandSolder" H 7400 4250 50  0001 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7400 4250 50  0001 C CNN
 F 3 "~" H 7400 4250 50  0001 C CNN
 	1    7400 4250
 	1    0    0    -1  
@@ -464,7 +438,7 @@ U 1 1 5E164693
 P 8250 4250
 F 0 "R36" H 8309 4296 50  0000 L CNN
 F 1 "10k" H 8309 4205 50  0000 L CNN
-F 2 "Resistor_SMD:R_0815_2038Metric_Pad1.53x4.00mm_HandSolder" H 8250 4250 50  0001 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8250 4250 50  0001 C CNN
 F 3 "~" H 8250 4250 50  0001 C CNN
 	1    8250 4250
 	1    0    0    -1  
@@ -512,4 +486,53 @@ Wire Wire Line
 	5450 3950 6500 3950
 Wire Wire Line
 	6500 3950 6500 4150
+Wire Wire Line
+	4150 4450 4450 4450
+$Comp
+L Device:R_Small R33
+U 1 1 5E133DEA
+P 2700 6200
+F 0 "R33" H 2759 6246 50  0000 L CNN
+F 1 "10k" H 2759 6155 50  0000 L CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2700 6200 50  0001 C CNN
+F 3 "~" H 2700 6200 50  0001 C CNN
+	1    2700 6200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x03 J10
+U 1 1 5E1CDED5
+P 6750 3350
+F 0 "J10" H 6830 3392 50  0000 L CNN
+F 1 "Conn_01x03" H 6830 3301 50  0000 L CNN
+F 2 "" H 6750 3350 50  0001 C CNN
+F 3 "~" H 6750 3350 50  0001 C CNN
+	1    6750 3350
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5E1CFCD9
+P 6500 3500
+F 0 "#PWR?" H 6500 3250 50  0001 C CNN
+F 1 "GND" H 6505 3327 50  0000 C CNN
+F 2 "" H 6500 3500 50  0001 C CNN
+F 3 "" H 6500 3500 50  0001 C CNN
+	1    6500 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6200 3550 6200 3250
+Wire Wire Line
+	6200 3250 6550 3250
+Wire Wire Line
+	6550 3350 6300 3350
+Wire Wire Line
+	6300 3350 6300 3650
+Wire Wire Line
+	5450 3650 6300 3650
+Wire Wire Line
+	6550 3450 6500 3450
+Wire Wire Line
+	6500 3450 6500 3500
 $EndSCHEMATC

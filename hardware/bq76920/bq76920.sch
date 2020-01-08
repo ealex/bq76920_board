@@ -32,8 +32,7 @@ F12 "SDA" I R 5100 2100 50
 F13 "BOOT" I L 4000 2400 50 
 F14 "BAT_THERM" I L 4000 2300 50 
 F15 "REGOUT" I R 5100 1900 50 
-F16 "RAW_PACK-" I R 5100 1600 50 
-F17 "PACK-" I R 5100 2750 50 
+F16 "PACK-" I R 5100 2750 50 
 $EndSheet
 $Sheet
 S 1800 1550 1000 800 
@@ -258,12 +257,6 @@ Wire Wire Line
 Wire Wire Line
 	3150 2750 3150 4350
 Wire Wire Line
-	5100 1600 6050 1600
-Wire Wire Line
-	6050 1600 6050 900 
-Wire Wire Line
-	6050 900  9950 900 
-Wire Wire Line
 	5100 2750 6050 2750
 Wire Wire Line
 	6050 2750 6050 4350
@@ -291,6 +284,17 @@ Wire Wire Line
 	6200 2100 5100 2100
 Wire Wire Line
 	5100 2200 6200 2200
+Wire Wire Line
+	9950 1900 7350 1900
+Wire Wire Line
+	7350 2000 9950 2000
+Wire Wire Line
+	9950 2100 7350 2100
+Wire Wire Line
+	7350 2200 9950 2200
+Wire Wire Line
+	3050 900  9950 900 
+Connection ~ 3050 900 
 $Comp
 L Connector_Generic:Conn_01x04 J8
 U 1 1 5E14DD4B
@@ -302,12 +306,4 @@ F 3 "~" H 10150 2000 50  0001 C CNN
 	1    10150 2000
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	9950 1900 7350 1900
-Wire Wire Line
-	7350 2000 9950 2000
-Wire Wire Line
-	9950 2100 7350 2100
-Wire Wire Line
-	7350 2200 9950 2200
 $EndSCHEMATC
