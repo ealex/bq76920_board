@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "BQ769x0.h"
+#include "comm.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -99,6 +100,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   afeConfig.enabled_cells=0b00010111;
+  // current limit settings
   afeConfig.range = threshold_upper;
   afeConfig.sc_delay = scd_400_us;
   afeConfig.sc_voltage=scd_44_22_mv;
@@ -106,10 +108,16 @@ int main(void)
   afeConfig.oc_voltage=ocd_17_8_mv;
   afeConfig.shuntValue=5; // 5 mOhms
   afeConfig.chargeCurrent_mA = 1500;
+
+  // voltage limit settings
   afeConfig.uv_delay=uvd_4_s;
-  afeConfig.uvLimit=0xE0;
+  afeConfig.uvLimit=0xDA;
   afeConfig.ov_delay=ovd_2_s;
-  afeConfig.ovLimit=0xB0;
+  afeConfig.ovLimit=0xAA;
+
+  // generic pack configuration
+  afeConfig.pack_max_voltage = 16400;
+  afeConfig.cell_bal_voltage = 4100;
 
   if(0==bqInit(I2C1, &afeData, &afeConfig)) {
 	  // ERROR
@@ -117,6 +125,8 @@ int main(void)
   } else {
 	  bqEnableAll();
   }
+
+  commInit(USART2, &afeData, &afeConfig);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -125,28 +135,28 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  // handle AFE
 	  if(LL_GPIO_IsInputPinSet(SIGNAL_GPIO_Port,SIGNAL_Pin)) {
 		  LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED0_Pin);
 		  // AFE event signaled,
-		  if(1==bqAct()) {
-			  LL_GPIO_ResetOutputPin(LED0_GPIO_Port, LED1_Pin);
-			  LL_GPIO_ResetOutputPin(LED0_GPIO_Port, LED2_Pin);
-			  if(0b00001100&afeData.status_reg) { // voltage problem
-				  LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED1_Pin);
-			  } else if(0b00000011&afeData.status_reg) { // discharge current problem
-				  LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED2_Pin);
-			  } else if (0b11000000&afeData.status_reg) { // charge current problem
-				  LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED1_Pin);
-				  LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED2_Pin);
-			  }
+		  bqAct();
+		  LL_GPIO_ResetOutputPin(LED1_GPIO_Port, LED1_Pin);
+		  LL_GPIO_ResetOutputPin(LED2_GPIO_Port, LED2_Pin);
+		  if(0b00001100&afeData.status_reg) { // voltage problem
+			  LL_GPIO_SetOutputPin(LED1_GPIO_Port, LED1_Pin);
+		  } else if(0b00000011&afeData.status_reg) { // discharge current problem
+			  LL_GPIO_SetOutputPin(LED2_GPIO_Port, LED2_Pin);
+		  } else if (0b11000000&afeData.status_reg) { // charge current problem
+			  LL_GPIO_SetOutputPin(LED1_GPIO_Port, LED1_Pin);
+			  LL_GPIO_SetOutputPin(LED2_GPIO_Port, LED2_Pin);
 		  }
 		  // handle the balancing system
 		  bqBalance();
 
 		  // handle the communication system
+		  commAct();
+
 		  LL_GPIO_ResetOutputPin(LED0_GPIO_Port, LED0_Pin);
-	  } else {
-		  asm volatile("nop");
 	  }
   }
   /* USER CODE END 3 */
@@ -172,7 +182,7 @@ void SystemClock_Config(void)
   {
     
   }
-  LL_RCC_MSI_SetRange(LL_RCC_MSIRANGE_4);
+  LL_RCC_MSI_SetRange(LL_RCC_MSIRANGE_5);
   LL_RCC_MSI_SetCalibTrimming(0);
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
@@ -185,9 +195,9 @@ void SystemClock_Config(void)
   
   }
 
-  LL_Init1msTick(1048000);
+  LL_Init1msTick(2097000);
 
-  LL_SetSystemCoreClock(1048000);
+  LL_SetSystemCoreClock(2097000);
   LL_RCC_SetUSARTClockSource(LL_RCC_USART2_CLKSOURCE_PCLK1);
   LL_RCC_SetI2CClockSource(LL_RCC_I2C1_CLKSOURCE_PCLK1);
 }
@@ -242,9 +252,9 @@ static void MX_I2C1_Init(void)
   LL_I2C_DisableGeneralCall(I2C1);
   LL_I2C_EnableClockStretching(I2C1);
   I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;
-  I2C_InitStruct.Timing = 0x00000002;
+  I2C_InitStruct.Timing = 0x00000508;
   I2C_InitStruct.AnalogFilter = LL_I2C_ANALOGFILTER_ENABLE;
-  I2C_InitStruct.DigitalFilter = 2;
+  I2C_InitStruct.DigitalFilter = 1;
   I2C_InitStruct.OwnAddress1 = 0;
   I2C_InitStruct.TypeAcknowledge = LL_I2C_ACK;
   I2C_InitStruct.OwnAddrSize = LL_I2C_OWNADDRESS1_7BIT;
@@ -299,7 +309,7 @@ static void MX_USART2_UART_Init(void)
   /* USER CODE BEGIN USART2_Init 1 */
 
   /* USER CODE END USART2_Init 1 */
-  USART_InitStruct.BaudRate = 9600;
+  USART_InitStruct.BaudRate = 115200;
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
   USART_InitStruct.Parity = LL_USART_PARITY_NONE;
@@ -307,6 +317,8 @@ static void MX_USART2_UART_Init(void)
   USART_InitStruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
   USART_InitStruct.OverSampling = LL_USART_OVERSAMPLING_16;
   LL_USART_Init(USART2, &USART_InitStruct);
+  LL_USART_DisableOverrunDetect(USART2);
+  LL_USART_DisableDMADeactOnRxErr(USART2);
   LL_USART_ConfigAsyncMode(USART2);
   LL_USART_Enable(USART2);
   /* USER CODE BEGIN USART2_Init 2 */

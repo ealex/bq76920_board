@@ -33,7 +33,7 @@ static uint16_t getRealOv(void);
 static uint16_t getRealUv(void);
 
 
-static uint32_t adcOffset;
+static int32_t adcOffset;
 static uint32_t adcGain;
 static condensed_afe_data * data;
 static afe_config * config;
@@ -64,10 +64,15 @@ uint8_t bqInit(I2C_TypeDef *I2Cx, condensed_afe_data * afeData, afe_config *afeC
 	writeRegister(SYS_CTRL1,0b00010000);
 	writeRegister(SYS_CTRL2,0b01000000);
 
+	// reset data register
+	data->status_reg = 0;
+	data->balStatus = 0;
+	data->balTarget = 0;
+
 	// read calibration data
-	adcOffset = (signed int) readRegister(ADCOFFSET);  // convert from 2's complement
-	adcGain = 365 + (((readRegister(ADCGAIN1) & 0b00001100) << 1) |
-	  ((readRegister(ADCGAIN2) & 0b11100000) >> 5)); // uV/LSB
+	adcOffset = (int32_t) readRegister(ADCOFFSET);  // convert from 2's complement
+	adcGain = (uint32_t)365+(uint32_t)((readRegister(ADCGAIN1)&(uint8_t)0b00001100)<<(uint8_t)1)
+			+(uint32_t)((readRegister(ADCGAIN2)&(uint8_t)11100000)>>(uint8_t)5);
 
 	// now apply all settings
 	setCurrentProtection(config->range,
@@ -75,8 +80,8 @@ uint8_t bqInit(I2C_TypeDef *I2Cx, condensed_afe_data * afeData, afe_config *afeC
 			config->oc_delay, config->oc_voltage);
 	setOvUvProtection(config->uv_delay, config->uvLimit, config->ov_delay, config->ovLimit);
 
-	data->ov_limit_actual = getRealOv();
-	data->uv_limit_actual = getRealUv();
+	config->cell_max_voltage = getRealOv();
+	config->cell_min_voltage = getRealUv();
 	return 1;
 }
 
@@ -85,7 +90,7 @@ uint8_t bqInit(I2C_TypeDef *I2Cx, condensed_afe_data * afeData, afe_config *afeC
  *	@retval	(uint8_t)1 if the system needs to pay attention to the AFE, 0 otherwise
  */
 uint8_t bqAct(void) {
-	uint8_t retVal = 0x00;
+	//uint8_t retVal = 0x00;
 	uint8_t tempVal;
 	// get AFE status and reset all flags
 	tempVal = readRegister(SYS_STAT);
@@ -117,6 +122,7 @@ void bqDisableAll(void) {
 	tmp = readRegister(SYS_CTRL2);
 	tmp = tmp & 0b11111100;
 	writeRegister(SYS_CTRL2, tmp);
+	data->outStatus = 0x00;
 }
 
 void bqEnableAll(void) {
@@ -124,34 +130,76 @@ void bqEnableAll(void) {
 	tmp = readRegister(SYS_CTRL2);
 	tmp = tmp | 0b00000011;
 	writeRegister(SYS_CTRL2, tmp);
+	data->outStatus = 0x01;
+}
+
+void bqResetStatus(void) {
+	afeStatus = 0x00;
 }
 
 void bqBalance(void) {
-	writeRegister(CELLBAL1, 0x00);
-	writeRegister(CELLBAL2, 0x00);
-	writeRegister(CELLBAL3, 0x00);
+	if(1==data->balStatus) {
+		if(0!=data->balTarget) {
+			// target is already set
+			uint8_t selected_cell = 0xFF;
+
+			// find first cell over target and enable it's balance pin
+			for(uint8_t cnt=0;cnt<15;cnt++) {
+				if(config->enabled_cells&(1<<cnt)) {
+					if(data->cells[cnt]>data->balTarget) {
+						selected_cell=cnt;
+						break;
+					}
+				}
+			}
+			if(0xFF==selected_cell) {
+				// no more cells
+				writeRegister(CELLBAL1, 0x00);
+				writeRegister(CELLBAL2, 0x00);
+				writeRegister(CELLBAL3, 0x00);
+				data->balTarget = 0x00;
+				data->balStatus = 0x00;
+			} else {
+				// enable balance for selected cell
+				if(5>selected_cell) {	// cells 0,1,2,3,4
+					writeRegister(CELLBAL1, (1<<selected_cell));
+				} else if (10>selected_cell) { // cells 5,6,7,8,9
+					writeRegister(CELLBAL2, (1<<(selected_cell-5)));
+				} else { // cells 10,11,12,13,14
+					writeRegister(CELLBAL3, (1<<(selected_cell-10)));
+				}
+			}
+		} else {
+			uint16_t minCell = 0xFFFF;
+			// determine the target
+			for(uint8_t cnt=0;cnt<15;cnt++) {
+				if(config->enabled_cells&(1<<cnt)) {
+					if(data->cells[cnt]<minCell) {
+						minCell = data->cells[cnt];
+					}
+				}
+			}
+			// picked up the target, loop next time
+			data->balTarget = minCell+1; // 1mV over the minimum cell
+		}
+	} else {
+		writeRegister(CELLBAL1, 0x00);
+		writeRegister(CELLBAL2, 0x00);
+		writeRegister(CELLBAL3, 0x00);
+	}
 }
 
 static void processDataRegisters(void) {
 	data->status_reg = afeStatus;
 
 	// cell voltage
-	data->cells[0] = convertCellVoltage(0);
-	data->cells[1] = convertCellVoltage(1);
-	data->cells[2] = convertCellVoltage(2);
-	data->cells[3] = convertCellVoltage(3);
-	data->cells[4] = convertCellVoltage(4);
-	data->cells[5] = convertCellVoltage(5);
-	data->cells[6] = convertCellVoltage(6);
-	data->cells[7] = convertCellVoltage(7);
-	data->cells[8] = convertCellVoltage(8);
-	data->cells[9] = convertCellVoltage(9);
-	data->cells[10] = convertCellVoltage(10);
-	data->cells[11] = convertCellVoltage(11);
-	data->cells[12] = convertCellVoltage(12);
-	data->cells[13] = convertCellVoltage(13);
-	data->cells[14] = convertCellVoltage(14);
-
+	for(uint8_t cnt=0; cnt<15;cnt++) {
+		if(0==(config->enabled_cells&(1<<cnt))) {
+			data->cells[cnt] = 0;
+		} else {
+			data->cells[cnt] = convertCellVoltage(cnt);
+		}
+	}
 	// total voltage
 	data->total_voltage=convertPackVolage();
 
@@ -167,17 +215,13 @@ static void processDataRegisters(void) {
 }
 
 static uint16_t convertCellVoltage(uint8_t cellIndex) {
-	if(0==(config->enabled_cells&(1<<cellIndex))) {
-		return 0;
-	} else {
-		uint8_t high;
-		uint8_t low;
-		high = afeRawData[cellIndex*2];
-		low = afeRawData[(cellIndex*2)+1];
-		uint16_t rawAdcValue = ((uint16_t)(high<<8) | (uint16_t)low) & 0x3FFF;
-		uint16_t outData = (uint16_t)((((uint32_t)adcGain * (uint32_t)rawAdcValue) + (uint32_t)(adcOffset*1000))/1000);
-		return outData;
-	}
+	uint8_t high;
+	uint8_t low;
+	high = afeRawData[cellIndex*2];
+	low = afeRawData[(cellIndex*2)+1];
+	uint16_t rawAdcValue = ((uint16_t)(high<<8) | (uint16_t)low) & 0x3FFF;
+	uint16_t outData = (uint16_t)((((uint32_t)adcGain * (uint32_t)rawAdcValue) + (uint32_t)(adcOffset*1000))/1000);
+	return outData;
 }
 
 static uint16_t convertPackVolage(void) {
@@ -187,7 +231,7 @@ static uint16_t convertPackVolage(void) {
 	uint8_t low;
 	high = afeRawData[BAT_HI_BYTE-VC1_HI_BYTE];
 	low = afeRawData[BAT_LO_BYTE-VC1_HI_BYTE];
-	uint16_t rawAdcValue = (uint16_t)(high<<8) | (uint16_t)low;
+	uint16_t rawAdcValue = (uint16_t)((uint16_t)high<<(uint8_t)8) | (uint16_t)low;
 	uint16_t outData = (uint16_t)(((uint32_t)4*(uint32_t)adcGain*(uint32_t)rawAdcValue + ((uint32_t)4*adcOffset*1000))/(uint32_t)1000);
 	return outData;
 }
@@ -229,169 +273,22 @@ static uint16_t getRealUv(void) {
 static void setCurrentProtection(threshold range,
         short_circuit_delay_us sc_delay, short_circuit_discharge_mv sc_voltage,
         over_current_delay_ms oc_delay, over_current_discharge_mv oc_voltage ) {
-
 	uint8_t reg = readRegister(PROTECT1) & 0b01100000;
-	// range control
-	switch(range) {
-		case threshold_lower:
-			break;
-		case threshold_upper:
-			reg |= 0b10000000; // SET RSNS high
-			break;
-	}
-
-	switch(sc_delay) {
-		case scd_70_us:
-			break;
-		case scd_100_us:
-			reg |= 0b00001000;
-			break;
-		case scd_200_us:
-			reg |= 0b00010000;
-			break;
-		case scd_400_us:
-			reg |= 0b00011000;
-			break;
-	}
-
-	switch(sc_voltage) {
-		case scd_44_22_mv:
-			break;
-		case scd_67_33_mv:
-			reg |= 0b00000001;
-			break;
-		case scd_89_44_mv:
-			reg |= 0b00000010;
-			break;
-		case scd_111_56_mv:
-			reg |= 0b00000011;
-			break;
-		case scd_133_67_mv:
-			reg |= 0b00000100;
-			break;
-		case scd_155_78_mv:
-			reg |= 0b00000101;
-			break;
-		case scd_178_89_mv:
-			reg |= 0b00000110;
-			break;
-		case scd_200_100_mv:
-			reg |= 0b00000111;
-			break;
-	}
+	reg |= range;
+	reg |= sc_delay;
+	reg |= sc_voltage;
 	writeRegister(PROTECT1, reg);
 
 	reg = readRegister(PROTECT2) & 0b10000000;
-
-	switch(oc_delay) {
-		case ocd_8_ms:
-			break;
-		case ocd_20_ms:
-			reg |= 0b00010000;
-			break;
-		case ocd_40_ms:
-			reg |= 0b00100000;
-			break;
-		case ocd_80_ms:
-			reg |= 0b00110000;
-			break;
-		case ocd_160_ms:
-			reg |= 0b01000000;
-			break;
-		case ocd_320_ms:
-			reg |= 0b01010000;
-			break;
-		case ocd_640_ms:
-			reg |= 0b01100000;
-			break;
-		case ocd_1280_ms:
-			reg |= 0b01110000;
-			break;
-	}
-
-	switch(oc_voltage) {
-		case ocd_17_8_mv:
-			break;
-		case ocd_22_11_mv:
-			reg |= 0b00000001;
-			break;
-		case ocd_28_14_mv:
-			reg |= 0b00000010;
-			break;
-		case ocd_33_17_mv:
-			reg |= 0b00000011;
-			break;
-		case ocd_39_19_mv:
-			reg |= 0b00000100;
-			break;
-		case ocd_44_22_mv:
-			reg |= 0b00000101;
-			break;
-		case ocd_50_25_mv:
-			reg |= 0b00000110;
-			break;
-		case ocd_56_28_mv:
-			reg |= 0b00000111;
-			break;
-		case ocd_61_31_mv:
-			reg |= 0b00001000;
-			break;
-		case ocd_67_33_mv:
-			reg |= 0b00001001;
-			break;
-		case ocd_72_36_mv:
-			reg |= 0b00001010;
-			break;
-		case ocd_78_39_mv:
-			reg |= 0b00001011;
-			break;
-		case ocd_83_42_mv:
-			reg |= 0b00001100;
-			break;
-		case ocd_89_44_mv:
-			reg |= 0b00001101;
-			break;
-		case ocd_94_47_mv:
-			reg |= 0b00001110;
-			break;
-		case ocd_100_50_mv:
-			reg |= 0b00001111;
-			break;
-	}
+	reg |= oc_delay;
+	reg |= oc_voltage;
 	writeRegister(PROTECT2, reg);
 }
 
 static void setOvUvProtection(under_voltage_delay_s uv_delay, uint8_t uvLimit, over_voltage_delay_s  ov_delay, uint8_t ovLimit) {
 	uint8_t reg = readRegister(PROTECT3) & 0b00001111;
-	switch(uv_delay) {
-		case uvd_1_s:
-			reg |= 00000000;
-			break;
-		case uvd_4_s:
-			reg |= 01000000;
-			break;
-		case uvd_8_s:
-			reg |= 10000000;
-			break;
-		case uvd_16_s:
-			reg |= 11000000;
-			break;
-	}
-
-	switch(ov_delay) {
-		case ovd_1_s:
-			break;
-		case ovd_2_s:
-			reg |= 00010000;
-			break;
-		case ovd_4_s:
-			reg |= 00100000;
-			break;
-		case ovd_8_s:
-			reg |= 00110000;
-			break;
-	}
-
+	reg |= uv_delay;
+	reg |= ov_delay;
 	writeRegister(PROTECT3, reg);
 	writeRegister(UV_TRIP, uvLimit);
 	writeRegister(OV_TRIP, ovLimit);

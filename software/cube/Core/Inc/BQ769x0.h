@@ -13,70 +13,70 @@
 
 // exported structures
 typedef enum {
-  threshold_lower,
-  threshold_upper
+  threshold_lower = 0b00000000,
+  threshold_upper = 0b10000000
 } threshold;
 
 typedef enum {
-  scd_44_22_mv,
-  scd_67_33_mv,
-  scd_89_44_mv,
-  scd_111_56_mv,
-  scd_133_67_mv,
-  scd_155_78_mv,
-  scd_178_89_mv,
-  scd_200_100_mv
+  scd_44_22_mv		= 0b00000000,
+  scd_67_33_mv		= 0b00000001,
+  scd_89_44_mv		= 0b00000010,
+  scd_111_56_mv		= 0b00000011,
+  scd_133_67_mv		= 0b00000100,
+  scd_155_78_mv		= 0b00000101,
+  scd_178_89_mv		= 0b00000110,
+  scd_200_100_mv	= 0b00000111
 }short_circuit_discharge_mv;
 
 typedef enum {
-  scd_70_us,
-  scd_100_us,
-  scd_200_us,
-  scd_400_us
+  scd_70_us			= 0b00000000,
+  scd_100_us 		= 0b00001000,
+  scd_200_us 		= 0b00010000,
+  scd_400_us		= 0b00011000
 }short_circuit_delay_us;
 
 typedef enum {
-  ocd_8_ms,
-  ocd_20_ms,
-  ocd_40_ms,
-  ocd_80_ms,
-  ocd_160_ms,
-  ocd_320_ms,
-  ocd_640_ms,
-  ocd_1280_ms,
+  ocd_8_ms			= 0b00000000,
+  ocd_20_ms			= 0b00010000,
+  ocd_40_ms			= 0b00100000,
+  ocd_80_ms			= 0b00110000,
+  ocd_160_ms		= 0b01000000,
+  ocd_320_ms		= 0b01010000,
+  ocd_640_ms		= 0b01100000,
+  ocd_1280_ms		= 0b01110000
 }over_current_delay_ms;
 
 typedef enum {
-  ocd_17_8_mv,
-  ocd_22_11_mv,
-  ocd_28_14_mv,
-  ocd_33_17_mv,
-  ocd_39_19_mv,
-  ocd_44_22_mv,
-  ocd_50_25_mv,
-  ocd_56_28_mv,
-  ocd_61_31_mv,
-  ocd_67_33_mv,
-  ocd_72_36_mv,
-  ocd_78_39_mv,
-  ocd_83_42_mv,
-  ocd_89_44_mv,
-  ocd_94_47_mv,
-  ocd_100_50_mv
+  ocd_17_8_mv		= 0b00000000,
+  ocd_22_11_mv		= 0b00000001,
+  ocd_28_14_mv		= 0b00000010,
+  ocd_33_17_mv		= 0b00000011,
+  ocd_39_19_mv		= 0b00000100,
+  ocd_44_22_mv		= 0b00000101,
+  ocd_50_25_mv		= 0b00000110,
+  ocd_56_28_mv		= 0b00000111,
+  ocd_61_31_mv		= 0b00001000,
+  ocd_67_33_mv		= 0b00001001,
+  ocd_72_36_mv		= 0b00001010,
+  ocd_78_39_mv		= 0b00001011,
+  ocd_83_42_mv		= 0b00001100,
+  ocd_89_44_mv		= 0b00001101,
+  ocd_94_47_mv		= 0b00001110,
+  ocd_100_50_mv		= 0b00001111
 }over_current_discharge_mv;
 
 typedef enum {
-  uvd_1_s,
-  uvd_4_s,
-  uvd_8_s,
-  uvd_16_s
+  uvd_1_s			= 0b00000000,
+  uvd_4_s			= 0b01000000,
+  uvd_8_s			= 0b10000000,
+  uvd_16_s			= 0b11000000
 } under_voltage_delay_s;
 
 typedef enum {
-  ovd_1_s,
-  ovd_2_s,
-  ovd_4_s,
-  ovd_8_s
+  ovd_1_s			= 0b00000000,
+  ovd_2_s			= 0b00010000,
+  ovd_4_s			= 0b00100000,
+  ovd_8_s			= 0b00110000
 } over_voltage_delay_s;
 
 typedef enum {
@@ -107,8 +107,9 @@ typedef struct {
 	uint16_t inst_power;
 	uint16_t total_power;
 	uint16_t average_power;
-	uint16_t uv_limit_actual;
-	uint16_t ov_limit_actual;
+	uint8_t balStatus;
+	uint16_t balTarget;
+	uint8_t outStatus;
 } condensed_afe_data;
 
 typedef struct {
@@ -129,6 +130,13 @@ typedef struct {
 	uint8_t uvLimit;
 	over_voltage_delay_s  ov_delay;
 	uint8_t ovLimit;
+
+	// general pack settings
+	uint16_t pack_max_voltage;
+	uint16_t pack_max_current;
+	uint16_t cell_max_voltage;
+	uint16_t cell_min_voltage;
+	uint16_t cell_bal_voltage;
 } afe_config;
 
 
@@ -138,6 +146,7 @@ uint8_t bqInit(I2C_TypeDef *I2Cx, condensed_afe_data * afeData, afe_config *conf
 uint8_t bqAct(void);
 void bqDisableAll(void);
 void bqEnableAll(void);
+void bqResetStatus(void);
 void bqBalance(void);
 
 #endif /* INC_BQ769X0_H_ */
