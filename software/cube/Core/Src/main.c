@@ -111,7 +111,7 @@ int main(void)
 
   // voltage limit settings
   afeConfig.uv_delay=uvd_4_s;
-  afeConfig.uvLimit=0xDA;
+  afeConfig.uvLimit=0xFF;
   afeConfig.ov_delay=ovd_2_s;
   afeConfig.ovLimit=0xAA;
 
@@ -198,7 +198,7 @@ void SystemClock_Config(void)
   LL_Init1msTick(2097000);
 
   LL_SetSystemCoreClock(2097000);
-  LL_RCC_SetUSARTClockSource(LL_RCC_USART2_CLKSOURCE_PCLK1);
+  LL_RCC_SetUSARTClockSource(LL_RCC_USART2_CLKSOURCE_SYSCLK);
   LL_RCC_SetI2CClockSource(LL_RCC_I2C1_CLKSOURCE_PCLK1);
 }
 
@@ -309,7 +309,7 @@ static void MX_USART2_UART_Init(void)
   /* USER CODE BEGIN USART2_Init 1 */
 
   /* USER CODE END USART2_Init 1 */
-  USART_InitStruct.BaudRate = 115200;
+  USART_InitStruct.BaudRate = 9600;
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
   USART_InitStruct.Parity = LL_USART_PARITY_NONE;

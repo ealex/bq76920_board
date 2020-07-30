@@ -5,10 +5,8 @@
  *      Author: rottten
  */
 
-#include "stm32l0xx_ll_usart.h"
 #include "stm32l0xx_ll_utils.h"
 #include "comm.h"
-#include "BQ769x0.h"
 #include "xprintf.h"
 
 static condensed_afe_data * data;
@@ -32,7 +30,7 @@ void commInit(USART_TypeDef *USARTx, condensed_afe_data * afeData, afe_config *a
 void commAct(void) {
 	uint8_t inCh;
 	if(LL_USART_IsActiveFlag_RXNE(port)) {
-		inCh = LL_USART_ReceiveData8(port);
+			inCh = LL_USART_ReceiveData8(port);
 		switch(inCh) {
 		case 'i': // info
 			xsprintf((char*)commBuffer,"\r\n+\r\n");
@@ -66,6 +64,10 @@ void commAct(void) {
 			sendText(commBuffer);
 			xsprintf((char*)commBuffer,"%d\r\n",data->system_current);
 			sendText(commBuffer);
+			xsprintf((char*)commBuffer,"%d\r\n",data->inst_power);
+			sendText(commBuffer);
+			xsprintf((char*)commBuffer,"%d\r\n",data->total_power);
+			sendText(commBuffer);
 			xsprintf((char*)commBuffer,"%d\r\n",data->die_temperature);
 			sendText(commBuffer);
 			xsprintf((char*)commBuffer,"%02X\r\n",data->status_reg);
@@ -98,17 +100,23 @@ void commAct(void) {
 			sendText(commBuffer);
 			break;
 		default:
+			if((inCh>='a') && (inCh <= 'z')) {
+				xsprintf((char*)commBuffer,"i - system info\r\n");
+				sendText(commBuffer);
+				xsprintf((char*)commBuffer,"s - battery status\r\n");
+				sendText(commBuffer);
+				xsprintf((char*)commBuffer,"e - battery enable\r\n");
+				sendText(commBuffer);
+				xsprintf((char*)commBuffer,"d - battery disable\r\n");
+				sendText(commBuffer);
+				xsprintf((char*)commBuffer,"r - error reset\r\n");
+				sendText(commBuffer);
+				xsprintf((char*)commBuffer,"b - balance start\r\n");
+				sendText(commBuffer);
+			}
 			break;
 		}
 	}
-}
-
-static void sendBuffer(uint8_t * buffer, uint8_t size) {
-	for(uint8_t cnt=0; cnt < size; cnt++) {
-		while(0==LL_USART_IsActiveFlag_TXE(port));
-		LL_USART_TransmitData8(port, buffer[cnt]);
-	}
-	while(0==LL_USART_IsActiveFlag_TC(port));
 }
 
 static void sendText(uint8_t * buffer) {

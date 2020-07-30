@@ -18,7 +18,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_dma.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_usart.h \
  ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_ll_gpio.h \
- ../Core/Inc/stm32_assert.h ../Core/Inc/BQ769x0.h ../Core/Inc/comm.h
+ ../Core/Inc/stm32_assert.h ../Core/Inc/BQ769x0.h ../Core/Inc/comm.h \
+ ../Core/Inc/BQ769x0.h
 
 ../Core/Inc/main.h:
 
@@ -65,3 +66,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/BQ769x0.h:
 
 ../Core/Inc/comm.h:
+
+../Core/Inc/BQ769x0.h:

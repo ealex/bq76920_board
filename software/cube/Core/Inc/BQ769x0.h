@@ -104,8 +104,8 @@ typedef struct {
 	int32_t die_temperature;
 	int16_t system_current;
 	uint8_t status_reg;
-	uint16_t inst_power;
-	uint16_t total_power;
+	int16_t inst_power;
+	int64_t total_power;
 	uint16_t average_power;
 	uint8_t balStatus;
 	uint16_t balTarget;
@@ -148,5 +148,7 @@ void bqDisableAll(void);
 void bqEnableAll(void);
 void bqResetStatus(void);
 void bqBalance(void);
+
+void bqHandler(void);
 
 #endif /* INC_BQ769X0_H_ */

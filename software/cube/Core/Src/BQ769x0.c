@@ -39,6 +39,8 @@ static condensed_afe_data * data;
 static afe_config * config;
 static uint8_t afeStatus=0;
 
+static volatile uint32_t ticks;
+
 /**
  * @brief	this will start the BQ769x0 chip and check it's present
  * @param	I2Cx - the I2C peripheral, already initialized by the user
@@ -82,6 +84,11 @@ uint8_t bqInit(I2C_TypeDef *I2Cx, condensed_afe_data * afeData, afe_config *afeC
 
 	config->cell_max_voltage = getRealOv();
 	config->cell_min_voltage = getRealUv();
+
+	// prepare SysTick
+	ticks = 0;
+	SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
+
 	return 1;
 }
 
@@ -99,10 +106,12 @@ uint8_t bqAct(void) {
 	afeStatus = afeStatus | (0b00001111&tempVal);
 
 	// fast act loop
+#if 0
 	if(0b00001111 & tempVal) {
 		// OV, UV , OC , SCD reaction
 		bqDisableAll();
 	}
+#endif
 
 	if(0b10000000 & tempVal) {
 		// read all data registers and process them
@@ -142,13 +151,15 @@ void bqBalance(void) {
 		if(0!=data->balTarget) {
 			// target is already set
 			uint8_t selected_cell = 0xFF;
-
-			// find first cell over target and enable it's balance pin
+			uint16_t selectedCellVoltage = 0x00;
+			// pick the highest cell and discharge it
 			for(uint8_t cnt=0;cnt<15;cnt++) {
 				if(config->enabled_cells&(1<<cnt)) {
 					if(data->cells[cnt]>data->balTarget) {
-						selected_cell=cnt;
-						break;
+						if(data->cells[cnt] > selectedCellVoltage ) {
+							selected_cell=cnt;
+							selectedCellVoltage = data->cells[cnt];
+						}
 					}
 				}
 			}
@@ -212,6 +223,18 @@ static void processDataRegisters(void) {
 	}
 	//ts1
 	data->die_temperature = convertPackDieTS1();
+
+	// instant power
+	data->inst_power = (int16_t)(((int32_t)data->total_voltage*(int32_t)data->system_current)/1000);
+
+	// get SysTick data and determine current power share, add it to the energy register
+	uint32_t localTicks = ticks;
+	ticks = 0;
+#define TICKS_PER_HOUR	((int64_t)3600*1000);
+	// compute Wh
+	int64_t temp = (int32_t)data->total_voltage*(int32_t)data->system_current; // get instant power in uW
+	temp = (temp*(int32_t)localTicks) / TICKS_PER_HOUR;
+	data->total_power += temp;
 }
 
 static uint16_t convertCellVoltage(uint8_t cellIndex) {
@@ -343,4 +366,8 @@ static uint8_t bqReadData(uint8_t addr, uint8_t *buffer, uint8_t count) {
 		return 0;
 	}
 	return 1;
+}
+
+void bqHandler(void) {
+	ticks++;
 }
