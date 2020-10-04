@@ -191,7 +191,7 @@ void bqBalance(void) {
 				}
 			}
 			// picked up the target, loop next time
-			data->balTarget = minCell+1; // 1mV over the minimum cell
+			data->balTarget = minCell+5; // 5mV over the lowest cell
 		}
 	} else {
 		writeRegister(CELLBAL1, 0x00);
@@ -225,16 +225,16 @@ static void processDataRegisters(void) {
 	data->die_temperature = convertPackDieTS1();
 
 	// instant power
-	data->inst_power = (int16_t)(((int32_t)data->total_voltage*(int32_t)data->system_current)/1000);
+	data->inst_power = (int32_t)(((uint32_t)data->total_voltage*(int32_t)data->system_current)/(uint32_t)1000);
 
 	// get SysTick data and determine current power share, add it to the energy register
-	uint32_t localTicks = ticks;
-	ticks = 0;
-#define TICKS_PER_HOUR	((int64_t)3600*1000);
+	//uint32_t localTicks = ticks;
+	//ticks = 0;
+//#define TICKS_PER_HOUR	((int64_t)3600*1000);
 	// compute Wh
-	int64_t temp = (int32_t)data->total_voltage*(int32_t)data->system_current; // get instant power in uW
-	temp = (temp*(int32_t)localTicks) / TICKS_PER_HOUR;
-	data->total_power += temp;
+	//int64_t temp = (int32_t)data->total_voltage*(int32_t)data->system_current; // get instant power in uW
+	//temp = (temp*(int32_t)localTicks) / TICKS_PER_HOUR;
+	//data->total_power += temp;
 }
 
 static uint16_t convertCellVoltage(uint8_t cellIndex) {

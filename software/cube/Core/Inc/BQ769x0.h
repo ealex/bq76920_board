@@ -104,8 +104,8 @@ typedef struct {
 	int32_t die_temperature;
 	int16_t system_current;
 	uint8_t status_reg;
-	int16_t inst_power;
-	int64_t total_power;
+	int32_t inst_power;
+	//int64_t total_power;
 	uint16_t average_power;
 	uint8_t balStatus;
 	uint16_t balTarget;
