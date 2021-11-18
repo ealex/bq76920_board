@@ -104,9 +104,9 @@ int main(void)
   // current limit settings
   afeConfig.range = threshold_upper;
   afeConfig.sc_delay = scd_400_us;
-  afeConfig.sc_voltage=scd_44_22_mv;
+  afeConfig.sc_voltage=scd_111_56_mv;
   afeConfig.oc_delay=ocd_8_ms;
-  afeConfig.oc_voltage=ocd_17_8_mv;
+  afeConfig.oc_voltage=ocd_44_22_mv;
   afeConfig.shuntValue=5; // 5 mOhms
   afeConfig.chargeCurrent_mA = 4000;
 
